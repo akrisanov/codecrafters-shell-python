@@ -2,7 +2,7 @@ import subprocess
 from pathlib import Path
 import os
 
-BUILTINS = {"echo", "exit", "pwd", "type"}
+BUILTINS = {"cd", "echo", "exit", "pwd", "type"}
 
 
 def main():
@@ -34,10 +34,15 @@ def handle(command: str, args: list[str]) -> None:
                 print("type: missing argument")
                 return
             handle_type(args[0])
-        case "echo":
-            print(*args)
+        case "cd":
+            new_dir = args[0]
+            if Path.exists(Path(new_dir)):
+                print(f"{new_dir}: No such file or directory")
+            os.chdir(args[0])
         case "pwd":
             print(Path.cwd())
+        case "echo":
+            print(*args)
         case "exit":
             raise SystemExit
         case _:
