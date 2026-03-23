@@ -9,9 +9,11 @@ def prepare(command: str) -> tuple[str, list[str]]:
     return parts[0], parts[1:]
 
 
-def handle(command: str, args: list[str] | None = None):
+def handle(command: str, args: list[str]):
     if command == "exit":
         exit()
+    elif command == "echo":
+        print(command, *args)
     else:
         print(f"{command}: command not found")
 
