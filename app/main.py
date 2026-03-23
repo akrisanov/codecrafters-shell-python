@@ -51,15 +51,10 @@ def handle_type(command: str):
 
 
 def find_exec(command: str) -> str | None:
-    for dir in os.environ.get("PATH", "").split(os.pathsep):
-        if not dir:
-            continue
-
+    for dir in os.get_exec_path():
         candidate = Path(dir) / command
-
         if candidate.is_file() and os.access(candidate, os.X_OK):
             return str(candidate)
-
     return None
 
 
