@@ -52,11 +52,11 @@ def handle_type(command: str) -> None:
 
 
 def handle_external(command: str, args: list[str]) -> None:
-    app = find_exec(command)
-    if app is None:
+    executable = find_exec(command)
+    if executable is None:
         print(f"{command}: command not found")
         return
-    subprocess.run([app, *args])
+    subprocess.run([command, *args])
 
 
 def find_exec(command: str) -> str | None:
