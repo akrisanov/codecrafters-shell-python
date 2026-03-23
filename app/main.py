@@ -1,21 +1,31 @@
 def main():
     while True:
-        command, args = prepare(input("$ "))
+        command, args = parse(input("$ "))
         handle(command, args)
 
 
-def prepare(command: str) -> tuple[str, list[str]]:
+def parse(command: str) -> tuple[str, list[str]]:
     parts = command.split()
     return parts[0], parts[1:]
 
 
 def handle(command: str, args: list[str]):
-    if command == "exit":
-        exit()
-    elif command == "echo":
-        print(*args)
+    match command:
+        case "type":
+            handle_type(command)
+        case "echo":
+            print(*args)
+        case "exit":
+            raise SystemExit
+        case _:
+            print(f"{command}: command not found")
+
+
+def handle_type(command: str):
+    if command in ("echo", "exit", "type"):
+        print(f"{command} is a shell builtin")
     else:
-        print(f"{command}: command not found")
+        print(f"{command}: not found")
 
 
 if __name__ == "__main__":
