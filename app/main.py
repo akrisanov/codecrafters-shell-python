@@ -1,3 +1,7 @@
+from pathlib import Path
+import os
+
+
 def main():
     while True:
         command, args = parse(input("$ "))
@@ -24,8 +28,24 @@ def handle(command: str, args: list[str]):
 def handle_type(command: str):
     if command in ("echo", "exit", "type"):
         print(f"{command} is a shell builtin")
+    elif result := find_exec(command):
+        print(result)
     else:
         print(f"{command}: not found")
+
+
+def find_exec(command: str) -> str | None:
+    path_env = os.environ.get("PATH", "")
+    for dir in path_env.split(os.pathsep):
+        if not dir:
+            continue
+
+        candidate = Path(dir) / command
+
+        if candidate.exists() and candidate.is_file() and os.access(candidate, os.X_OK):
+            return str(candidate)
+
+    return None
 
 
 if __name__ == "__main__":
