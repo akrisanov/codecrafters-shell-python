@@ -12,7 +12,7 @@ def parse(command: str) -> tuple[str, list[str]]:
 def handle(command: str, args: list[str]):
     match command:
         case "type":
-            handle_type(command)
+            handle_type(args[0])
         case "echo":
             print(*args)
         case "exit":
