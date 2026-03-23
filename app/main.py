@@ -64,6 +64,7 @@ def handle_external(command: str, args: list[str]) -> None:
 
 
 def handle_cd(path: Path) -> None:
+    path = path.expanduser()
     try:
         os.chdir(path)
     except FileNotFoundError:
