@@ -37,7 +37,7 @@ def handle(command: str, args: list[str]) -> None:
         case "cd":
             new_dir = args[0]
             if Path.exists(Path(new_dir)):
-                print(f"{new_dir}: No such file or directory")
+                print(f"cd: {new_dir}: No such file or directory")
             os.chdir(args[0])
         case "pwd":
             print(Path.cwd())
