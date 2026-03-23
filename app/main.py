@@ -35,11 +35,7 @@ def handle(command: str, args: list[str]) -> None:
                 return
             handle_type(args[0])
         case "cd":
-            new_dir = args[0]
-            if Path.exists(Path(new_dir)):
-                print(f"cd: {new_dir}: No such file or directory")
-                return
-            os.chdir(args[0])
+            handle_cd(Path(args[0]))
         case "pwd":
             print(Path.cwd())
         case "echo":
@@ -65,6 +61,13 @@ def handle_external(command: str, args: list[str]) -> None:
         print(f"{command}: command not found")
         return
     subprocess.run([command, *args])
+
+
+def handle_cd(path: Path) -> None:
+    if Path.exists(path):
+        os.chdir(path)
+        return
+    print(f"cd: {path}: No such file or directory")
 
 
 def find_exec(command: str) -> str | None:
