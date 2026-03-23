@@ -64,10 +64,14 @@ def handle_external(command: str, args: list[str]) -> None:
 
 
 def handle_cd(path: Path) -> None:
-    if Path.exists(path):
+    try:
         os.chdir(path)
-        return
-    print(f"cd: {path}: No such file or directory")
+    except FileNotFoundError:
+        print(f"cd: {path}: No such file or directory")
+    except NotADirectoryError:
+        print(f"cd: {path}: Not a directory")
+    except PermissionError:
+        print(f"cd: {path}: Permission denied")
 
 
 def find_exec(command: str) -> str | None:
