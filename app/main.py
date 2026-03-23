@@ -2,7 +2,7 @@ import subprocess
 from pathlib import Path
 import os
 
-BUILTINS = {"echo", "exit", "type"}
+BUILTINS = {"echo", "exit", "pwd", "type"}
 
 
 def main():
@@ -36,6 +36,8 @@ def handle(command: str, args: list[str]) -> None:
             handle_type(args[0])
         case "echo":
             print(*args)
+        case "pwd":
+            print(Path.cwd())
         case "exit":
             raise SystemExit
         case _:
