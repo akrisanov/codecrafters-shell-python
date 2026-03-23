@@ -13,7 +13,7 @@ def handle(command: str, args: list[str]):
     if command == "exit":
         exit()
     elif command == "echo":
-        print(command, *args)
+        print(*args)
     else:
         print(f"{command}: command not found")
 
