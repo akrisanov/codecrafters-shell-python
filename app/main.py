@@ -1,3 +1,4 @@
+import subprocess
 from pathlib import Path
 import os
 
@@ -26,7 +27,7 @@ def parse(command: str) -> tuple[str | None, list[str]]:
     return parts[0], parts[1:]
 
 
-def handle(command: str, args: list[str]):
+def handle(command: str, args: list[str]) -> None:
     match command:
         case "type":
             if not args:
@@ -38,16 +39,24 @@ def handle(command: str, args: list[str]):
         case "exit":
             raise SystemExit
         case _:
-            print(f"{command}: command not found")
+            handle_external(command, args)
 
 
-def handle_type(command: str):
+def handle_type(command: str) -> None:
     if command in BUILTINS:
         print(f"{command} is a shell builtin")
     elif result := find_exec(command):
         print(result)
     else:
         print(f"{command}: not found")
+
+
+def handle_external(command: str, args: list[str]) -> None:
+    app = find_exec(command)
+    if app is None:
+        print(f"{command}: command not found")
+        return
+    subprocess.run([app, *args])
 
 
 def find_exec(command: str) -> str | None:
